@@ -119,15 +119,15 @@ def after():
 # if __name__ == "__main__":
 #     app.run(debug=True)
 
-# if __name__ == "__main__":
-#     from waitress import serve
-#     serve(app, host="0.0.0.0", port=8080)
+if __name__ == "__main__":
+    from waitress import serve
+    serve(app, host="0.0.0.0", port=8080)
 
-from gevent.pywsgi import WSGIServer
+# from gevent.pywsgi import WSGIServer
 
-if __name__ == '__main__':
-    # Debug/Development
-    # app.run(debug=True, host="0.0.0.0", port="5000")
-    # Production
-    http_server = WSGIServer(('', 5000), app)
-    http_server.serve_forever()
+# if __name__ == '__main__':
+#     # Debug/Development
+#     # app.run(debug=True, host="0.0.0.0", port="5000")
+#     # Production
+#     http_server = WSGIServer(('', 5000), app)
+#     http_server.serve_forever()
