@@ -90,7 +90,7 @@ def after():
     final = ''
 
     print("="*50)
-    print("GETING Captions")
+    print("GETTING Captions")
 
     count = 0
     while tqdm(count < 25):
