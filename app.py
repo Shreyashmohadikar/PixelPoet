@@ -1,23 +1,21 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, url_for
 import cv2
-import tensorflow as tf
-from keras.models import load_model
+from tensorflow.keras.models import load_model
 import numpy as np
-from keras.applications import ResNet50
-from keras.optimizers import Adam
-from keras.layers import Dense, Flatten,Input, Convolution2D, Dropout, LSTM, TimeDistributed, Embedding, Bidirectional, Activation, RepeatVector,Concatenate
-from keras.models import Sequential, Model
-from keras.utils import np_utils
-from keras.preprocessing import image, sequence
+from tensorflow.keras.applications import ResNet50
+from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.layers import Dense, Flatten,Input, Convolution2D, Dropout, LSTM, TimeDistributed, Embedding, Bidirectional, Activation, RepeatVector,Concatenate
+from tensorflow.keras.models import Sequential, Model
+# from tensorflow.keras.utils import utils
+from tensorflow.keras.preprocessing import image, sequence
 import cv2
-from keras_preprocessing.sequence import pad_sequences
+from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tqdm import tqdm
 
+resnet = ResNet50(include_top=False,weights='imagenet',input_shape=(224,224,3),pooling='avg')
+# resnet = load_model('resnet.h5')
 
-# resnet = ResNet50(include_top=False,weights='imagenet',input_shape=(224,224,3),pooling='avg')
-resnet = load_model('../resnet.h5')
-
-vocab = np.load('../vocab_1.npy', allow_pickle=True)
+vocab = np.load('vocab_1.npy', allow_pickle=True)
 vocab = vocab.item()
 
 inv_vocab = {v:k for k, v in vocab.items()}
@@ -52,7 +50,7 @@ model = Model(inputs=[image_model.input, language_model.input], outputs = out)
 model.compile(loss='categorical_crossentropy', optimizer='RMSprop', metrics=['accuracy'])
 # model.summary()
 
-model.load_weights("../mine_model_weights_1.h5")
+model.load_weights("mine_model_weights_1.h5")
 
 print("="*50)
 print("model loaded")
@@ -72,9 +70,9 @@ def after():
     global model, vocab, inv_vocab, resnet
 
     file = request.files['file1']
-    file.save('../Image_Caption/static/file.jpg')
+    file.save('static/file.jpg')
 
-    img = cv2.imread('../Image_Caption/static/file.jpg')
+    img = cv2.imread('static/file.jpg')
 
     if img is None or img.size == 0:
         print("Error: Image is empty.")
